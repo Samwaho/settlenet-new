@@ -15,14 +15,14 @@ export default function CTA() {
               as="h2" 
               className="text-3xl md:text-4xl font-bold mb-6"
             >
-              Ready to transform your property's network infrastructure?
+              Ready to transform your property&apos;s network infrastructure?
             </MotionText>
             
             <MotionText 
               className="text-xl mb-8 text-white/90"
               delay={0.2}
             >
-              Schedule a consultation with our experts to learn how Settlenet can help you maximize your property's value.
+              Schedule a consultation with our experts to learn how Settlenet can help you maximize your property&apos;s value.
             </MotionText>
             
             <MotionScrollReveal 
@@ -135,3 +135,4 @@ export default function CTA() {
     </MotionSection>
   );
 }
+

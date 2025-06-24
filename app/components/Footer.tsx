@@ -31,7 +31,7 @@ export default function Footer() {
               Transforming property networks into valuable assets through smart management solutions.
             </p>
             <div className="flex space-x-4">
-              {['twitter', 'linkedin', 'facebook', 'instagram'].map((social, index) => (
+              {['twitter', 'linkedin', 'facebook', 'instagram'].map((social) => (
                 <motion.a 
                   key={social}
                   href="#" 
@@ -43,7 +43,6 @@ export default function Footer() {
                   viewport={{ once: true }}
                   transition={{ 
                     duration: 0.3, 
-                    delay: 0.1 * index,
                   }}
                 >
                   <span className="sr-only">{social}</span>
@@ -152,4 +151,5 @@ export default function Footer() {
     </footer>
   );
 }
+
 

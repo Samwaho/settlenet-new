@@ -40,12 +40,12 @@ export default function About() {
             <div className="bg-gray-50 p-6 md:p-8 rounded-lg shadow-sm h-full">
               <h3 className="text-xl md:text-2xl font-bold text-[var(--primary)] mb-4 md:mb-6">Our Mission</h3>
               <p className="text-gray-600 mb-6 text-base md:text-lg">
-                At Settlenet, we're on a mission to revolutionize how property owners manage and monetize their network infrastructure. We believe that with the right technology and approach, your property's network can become a significant source of revenue and tenant satisfaction.
+                At Settlenet, we&apos;re on a mission to revolutionize how property owners manage and monetize their network infrastructure. We believe that with the right technology and approach, your property&apos;s network can become a significant source of revenue and tenant satisfaction.
               </p>
               
               <h3 className="text-xl md:text-2xl font-bold text-[var(--primary)] mb-4 md:mb-6">Our Story</h3>
               <p className="text-gray-600 text-base md:text-lg">
-                Founded in 2018 by a team of network engineers and real estate professionals, Settlenet was born from the realization that property owners were missing out on significant opportunities in the digital age. We've since grown to serve hundreds of properties across the country.
+                Founded in 2018 by a team of network engineers and real estate professionals, Settlenet was born from the realization that property owners were missing out on significant opportunities in the digital age. We&apos;ve since grown to serve hundreds of properties across the country.
               </p>
             </div>
           </MotionScrollReveal>
@@ -117,6 +117,7 @@ export default function About() {
     </MotionSection>
   );
 }
+
 
 
 

@@ -28,7 +28,6 @@ const cardVariants: Variants = {
 export default function MotionCard({ 
   children, 
   className = "", 
-  delay = 0, 
   index = 0,
   hoverEffect = true
 }: MotionCardProps) {
