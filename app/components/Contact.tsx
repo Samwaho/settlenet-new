@@ -50,8 +50,8 @@ export default function Contact() {
                 </svg>
               </div>
               <h4 className="font-medium text-lg mb-1">Phone</h4>
-              <p className="text-gray-600">+1 (555) 123-4567</p>
-              <p className="text-gray-600">Mon-Fri, 9am-5pm EST</p>
+              <p className="text-gray-600">+254 710 805 994</p>
+              <p className="text-gray-600">Mon-Fri, 9am-5pm</p>
             </motion.div>
             
             <motion.div 
@@ -64,8 +64,8 @@ export default function Contact() {
                 </svg>
               </div>
               <h4 className="font-medium text-lg mb-1">Email</h4>
-              <p className="text-gray-600">info@settlenet.com</p>
-              <p className="text-gray-600">support@settlenet.com</p>
+              <p className="text-gray-600">info@settlenet.co.ke</p>
+              <p className="text-gray-600">support@settlenet.co.ke</p>
             </motion.div>
             
             <motion.div 
@@ -79,8 +79,8 @@ export default function Contact() {
                 </svg>
               </div>
               <h4 className="font-medium text-lg mb-1">Address</h4>
-              <p className="text-gray-600">123 Tech Avenue, Suite 100</p>
-              <p className="text-gray-600">San Francisco, CA 94107</p>
+              <p className="text-gray-600">123 Tech Avenue, Suite 100, Nairobi</p>
+              <p className="text-gray-600">Kenya</p>
             </motion.div>
           </div>
           

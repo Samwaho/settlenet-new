@@ -2,6 +2,7 @@
 
 import { ReactNode, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 interface MotionParallaxProps {
   children: ReactNode;
@@ -16,6 +17,13 @@ export default function MotionParallax({
   speed = 0.5,
   direction = 'vertical'
 }: MotionParallaxProps) {
+  // Add client-side only rendering
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -34,6 +42,15 @@ export default function MotionParallax({
     [0, 1], 
     direction === 'horizontal' ? [speed * 100, -speed * 100] : [0, 0]
   );
+  
+  // Return a simple container during SSR to avoid hydration mismatch
+  if (!isMounted) {
+    return (
+      <div className={`${className} overflow-hidden`}>
+        <div>{children}</div>
+      </div>
+    );
+  }
   
   return (
     <div ref={ref} className={`${className} overflow-hidden`}>
