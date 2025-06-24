@@ -74,7 +74,7 @@ export default function Footer() {
           >
             <h3 className="text-lg font-semibold mb-4">Services</h3>
             <ul className="space-y-2">
-              {['Network Management', 'WebYield', 'Tenant Experience', 'Infrastructure Audit'].map((item, index) => (
+              {['Network Management', 'WebYield', 'Tenant Experience', 'Infrastructure Audit'].map((item) => (
                 <motion.li 
                   key={item}
                   whileHover={{ x: 5 }}
@@ -97,7 +97,7 @@ export default function Footer() {
           >
             <h3 className="text-lg font-semibold mb-4">Company</h3>
             <ul className="space-y-2">
-              {['About Us', 'Team', 'Careers', 'Blog', 'Contact'].map((item, index) => (
+              {['About Us', 'Team', 'Careers', 'Blog', 'Contact'].map((item) => (
                 <motion.li 
                   key={item}
                   whileHover={{ x: 5 }}
@@ -120,7 +120,7 @@ export default function Footer() {
           >
             <h3 className="text-lg font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
-              {['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'GDPR'].map((item, index) => (
+              {['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'GDPR'].map((item) => (
                 <motion.li 
                   key={item}
                   whileHover={{ x: 5 }}
@@ -151,5 +151,6 @@ export default function Footer() {
     </footer>
   );
 }
+
 
 
