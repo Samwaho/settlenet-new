@@ -1,46 +1,120 @@
+'use client';
+
+import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-r from-[var(--primary-dark)] to-[var(--primary)] text-white py-16 md:py-24 overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/network-pattern.svg')] opacity-10"></div>
+    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      {/* Background image */}
+      <div className="absolute inset-0 z-0">
+        <Image 
+          src="/hero-bg.jpg" 
+          alt="Network infrastructure" 
+          fill 
+          priority
+          className="object-cover"
+          quality={90}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-[var(--primary-dark)]/60"></div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="animate-fade-in">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Smart Network Management for Properties
-            </h1>
-            <p className="text-xl mb-8 text-white/90 max-w-lg">
-              Maximize your property investment with our WebYield model. Turn bandwidth into a new revenue stream.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <button className="bg-white text-[var(--primary)] hover:bg-gray-100 px-6 py-3 rounded-md font-medium transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                Learn More
-              </button>
-              <button className="bg-[var(--secondary)] hover:bg-orange-600 text-white px-6 py-3 rounded-md font-medium transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                Contact Us
-              </button>
-            </div>
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left column - Text content */}
+          <div className="text-white max-w-2xl">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <span className="inline-block px-4 py-1.5 bg-[var(--secondary)] text-white rounded-full text-sm font-medium mb-6">
+                Network Infrastructure Solutions
+              </span>
+              
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                Transform Your Property's <span className="text-[var(--secondary)]">Network</span> Into Revenue
+              </h1>
+              
+              <p className="text-lg sm:text-xl mb-8 text-gray-200 leading-relaxed">
+                Settlenet helps property owners monetize their network infrastructure with our innovative WebYield model. Increase tenant satisfaction while creating new revenue streams.
+              </p>
+              
+              <div className="flex flex-wrap gap-4">
+                <Link href="#services">
+                  <motion.button 
+                    className="bg-[var(--secondary)] hover:bg-[var(--secondary-dark)] text-white px-8 py-4 rounded-md font-medium shadow-lg transition-all"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Our Solutions
+                  </motion.button>
+                </Link>
+                
+                <Link href="#contact">
+                  <motion.button 
+                    className="bg-transparent border-2 border-white hover:bg-white/10 text-white px-8 py-4 rounded-md font-medium transition-all"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Contact Us
+                  </motion.button>
+                </Link>
+              </div>
+            </motion.div>
           </div>
-          <div className="animate-fade-in animate-delay-200 flex justify-center">
-            <div className="relative w-full max-w-md h-80 bg-white/10 rounded-lg backdrop-blur-sm p-6 shadow-xl transform hover:scale-105 transition-transform">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-[var(--secondary)] flex items-center justify-center shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                    </svg>
+          
+          {/* Right column - Stats and highlights */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            className="hidden lg:block"
+          >
+            <div className="bg-white/10 backdrop-blur-md p-8 rounded-xl border border-white/20">
+              <h3 className="text-white text-xl font-semibold mb-6">Why Property Owners Choose Us</h3>
+              
+              <div className="grid grid-cols-2 gap-6">
+                {[
+                  { number: "250+", label: "Properties Served" },
+                  { number: "35%", label: "Average Revenue Increase" },
+                  { number: "99.9%", label: "Network Uptime" },
+                  { number: "24/7", label: "Support Available" }
+                ].map((stat, index) => (
+                  <motion.div 
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.6 + (index * 0.1) }}
+                    className="text-center p-4 bg-white/5 rounded-lg border border-white/10"
+                  >
+                    <div className="text-[var(--secondary)] font-bold text-3xl mb-1">{stat.number}</div>
+                    <div className="text-gray-200 text-sm">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+              
+              <div className="mt-6 pt-6 border-t border-white/10">
+                <div className="flex items-center">
+                  <div className="flex -space-x-2 mr-4">
+                    {[...Array(4)].map((_, i) => (
+                      <div key={i} className={`w-10 h-10 rounded-full border-2 border-white bg-[var(--primary-${i % 2 ? 'light' : 'dark'})]`}></div>
+                    ))}
                   </div>
-                  <p className="text-lg font-semibold">WebYield Technology</p>
-                  <p className="text-sm text-white/80 mt-2">Patented network optimization</p>
+                  <div className="text-white">
+                    <div className="font-medium">Trusted by leading property managers</div>
+                    <div className="text-sm text-gray-300">Join our network of satisfied clients</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
   );
 }
+
+
+

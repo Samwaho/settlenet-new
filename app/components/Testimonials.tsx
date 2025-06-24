@@ -1,60 +1,180 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import MotionSection from './animations/MotionSection';
+import MotionText from './animations/MotionText';
+
+type Testimonial = {
+  id: number;
+  quote: string;
+  author: string;
+  position: string;
+  company: string;
+};
+
 export default function Testimonials() {
-  const testimonials = [
+  const testimonials: Testimonial[] = [
     {
-      quote: "Settlenet transformed our property's network infrastructure. The WebYield model has created a new revenue stream we hadn't considered before.",
+      id: 1,
+      quote: "Settlenet transformed our property's network infrastructure into a significant revenue stream. Their WebYield model has been a game-changer for our business.",
       author: "Sarah Johnson",
-      role: "Property Manager, Skyline Apartments",
-      image: "/testimonial-1.jpg"
+      position: "Property Manager",
+      company: "Skyline Properties"
     },
     {
-      quote: "The team at Settlenet provided exceptional service from initial consultation through implementation. Our tenants are thrilled with the network performance.",
+      id: 2,
+      quote: "The tenant experience platform has drastically reduced our support tickets and improved satisfaction scores. Our residents love the seamless connectivity.",
       author: "Michael Chen",
-      role: "Real Estate Developer, Urban Living",
-      image: "/testimonial-2.jpg"
+      position: "Director of Operations",
+      company: "Urban Living Apartments"
     },
     {
-      quote: "We've seen a 30% increase in property value after implementing Settlenet's smart network solutions. The ROI has been remarkable.",
+      id: 3,
+      quote: "Their IoT integration capabilities have helped us future-proof our buildings. We're now able to offer smart home features that our competitors can't match.",
       author: "David Rodriguez",
-      role: "Investment Director, Horizon Properties",
-      image: "/testimonial-3.jpg"
+      position: "CTO",
+      company: "NextGen Real Estate"
     }
   ];
-
+  
+  const [current, setCurrent] = useState(0);
+  
+  // Auto-rotate testimonials
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % testimonials.length);
+    }, 8000);
+    
+    return () => clearInterval(interval);
+  }, [testimonials.length]);
+  
+  // Animation variants
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 300 : -300,
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1]
+      }
+    },
+    exit: (direction: number) => ({
+      x: direction < 0 ? 300 : -300,
+      opacity: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1]
+      }
+    })
+  };
+  
+  const [direction, setDirection] = useState(0);
+  
+  const handleNext = () => {
+    setDirection(1);
+    setCurrent((prev) => (prev + 1) % testimonials.length);
+  };
+  
+  const handlePrev = () => {
+    setDirection(-1);
+    setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+  
   return (
-    <section className="py-16 bg-white">
+    <MotionSection id="testimonials" className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 animate-fade-in">
-          <span className="inline-block px-3 py-1 bg-[var(--secondary-light)] text-[var(--secondary)] rounded-full text-sm font-medium mb-3">Testimonials</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[var(--primary)]">What Our Clients Say</h2>
-          <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
-            Hear from property owners who have transformed their network infrastructure with Settlenet
-          </p>
+        <div className="text-center mb-12">
+          <motion.span 
+            className="inline-block px-3 py-1 bg-[var(--primary-light)] text-[var(--primary)] rounded-full text-sm font-medium mb-3"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+          >
+            Testimonials
+          </motion.span>
+          
+          <MotionText 
+            as="h2" 
+            className="text-3xl md:text-4xl font-bold text-gray-900"
+          >
+            What Our Clients Say
+          </MotionText>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div 
-              key={index} 
-              className="bg-gray-50 p-6 rounded-lg shadow-md animate-fade-in hover:shadow-xl transition-all duration-300"
-              style={{ animationDelay: `${(index + 1) * 100}ms` }}
+        <div className="relative max-w-4xl mx-auto">
+          <AnimatePresence custom={direction} mode="wait">
+            <motion.div
+              key={current}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="bg-gray-50 p-8 md:p-12 rounded-xl shadow-lg"
             >
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-gray-300 mr-4 overflow-hidden">
-                  {/* Placeholder for testimonial image */}
-                  <div className="w-full h-full bg-[var(--primary-dark)] flex items-center justify-center text-white font-bold">
-                    {testimonial.author.charAt(0)}
-                  </div>
-                </div>
+              <div className="flex flex-col items-center text-center">
+                <svg className="h-12 w-12 text-[var(--secondary)] mb-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg>
+                <p className="text-xl md:text-2xl text-gray-700 mb-8 italic">"{testimonials[current].quote}"</p>
                 <div>
-                  <h4 className="font-semibold">{testimonial.author}</h4>
-                  <p className="text-sm text-gray-600">{testimonial.role}</p>
+                  <h4 className="font-semibold text-lg">{testimonials[current].author}</h4>
+                  <p className="text-gray-600">{testimonials[current].position}, {testimonials[current].company}</p>
                 </div>
               </div>
-              <p className="text-gray-700 italic">"{testimonial.quote}"</p>
-            </div>
-          ))}
+            </motion.div>
+          </AnimatePresence>
+          
+          {/* Navigation buttons */}
+          <div className="flex justify-center mt-8 space-x-4">
+            <motion.button
+              onClick={handlePrev}
+              className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <svg className="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </motion.button>
+            
+            <motion.button
+              onClick={handleNext}
+              className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <svg className="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </motion.button>
+          </div>
+          
+          {/* Indicators */}
+          <div className="flex justify-center mt-4 space-x-2">
+            {testimonials.map((_, index) => (
+              <motion.button
+                key={index}
+                onClick={() => {
+                  setDirection(index > current ? 1 : -1);
+                  setCurrent(index);
+                }}
+                className={`h-2 rounded-full focus:outline-none ${
+                  index === current ? 'w-8 bg-[var(--secondary)]' : 'w-2 bg-gray-300'
+                }`}
+                whileHover={{ scale: 1.2 }}
+                transition={{ duration: 0.2 }}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </section>
+    </MotionSection>
   );
 }

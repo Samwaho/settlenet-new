@@ -7,6 +7,7 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
+import Projects from './components/Projects';
 
 export default function Home() {
   return (
@@ -17,10 +18,13 @@ export default function Home() {
       <Stats />
       <About />
       <Testimonials />
+      <Projects />
       <CTA />
       <Contact />
       <Footer />
     </div>
   );
 }
+
+
 
