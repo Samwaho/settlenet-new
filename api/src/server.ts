@@ -15,10 +15,32 @@ app.get('/health', (_req: Request, res: Response) => {
 
 // POST /api/hotspot/registrations
 app.post('/api/hotspot/registrations', async (req: Request, res: Response) => {
+  const startTime = Date.now();
+  const requestId = Math.random().toString(36).substr(2, 9);
+  
+  console.log(`[${requestId}] Registration request received:`, {
+    timestamp: new Date().toISOString(),
+    ip: req.ip || req.connection.remoteAddress,
+    userAgent: req.get('User-Agent'),
+    body: req.body
+  });
+
   try {
     const { fullName, phoneNumber, macAddress, ipAddress, loginMethod } = req.body ?? {};
 
+    console.log(`[${requestId}] Processing registration for:`, {
+      fullName: fullName ? `${fullName.substring(0, 3)}***` : 'undefined',
+      phoneNumber: phoneNumber ? `${phoneNumber.substring(0, 3)}***` : 'undefined',
+      macAddress,
+      ipAddress,
+      loginMethod
+    });
+
     if (!fullName || !phoneNumber) {
+      console.log(`[${requestId}] Validation failed - missing required fields:`, {
+        hasFullName: !!fullName,
+        hasPhoneNumber: !!phoneNumber
+      });
       return res.status(400).json({ error: 'fullName and phoneNumber are required' });
     }
 
@@ -32,10 +54,31 @@ app.post('/api/hotspot/registrations', async (req: Request, res: Response) => {
       },
     });
 
-    return res.status(201).json({ id: record.id });
+    const duration = Date.now() - startTime;
+    console.log(`[${requestId}] Registration saved successfully:`, {
+      recordId: record.id,
+      duration: `${duration}ms`,
+      timestamp: new Date().toISOString()
+    });
+
+    return res.status(201).json({ 
+      id: record.id,
+      success: true,
+      message: 'Registration saved successfully'
+    });
   } catch (error) {
-    console.error('Failed to save registration', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    const duration = Date.now() - startTime;
+    console.error(`[${requestId}] Failed to save registration:`, {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      duration: `${duration}ms`,
+      timestamp: new Date().toISOString()
+    });
+    return res.status(500).json({ 
+      error: 'Internal Server Error',
+      requestId,
+      success: false
+    });
   }
 });
 

@@ -183,23 +183,43 @@
                 </script>
 
                 <script>
-                    // Enhance connectFree to first post details to the API, then proceed
+                    // Enhanced connectFree that requires successful API save before connecting
                     (function() {
                         var originalConnectFree = window.connectFree;
-                        var API_BASE = (window.HOTSPOT_API_BASE || 'http://localhost:4000');
+                        var API_BASE = (window.HOTSPOT_API_BASE || 'http://167.99.102.77:4000');
 
                         async function postGuestDetails(fullName, phoneNumber) {
+                            console.log('Attempting to save guest details:', { fullName: fullName.substring(0, 3) + '***', phoneNumber: phoneNumber.substring(0, 3) + '***' });
+                            
                             try {
                                 const ipGuess = (typeof location !== 'undefined') ? undefined : undefined;
                                 const res = await fetch(API_BASE + '/api/hotspot/registrations', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ fullName: fullName, phoneNumber: phoneNumber, loginMethod: 'free', ipAddress: ipGuess })
+                                    body: JSON.stringify({ 
+                                        fullName: fullName, 
+                                        phoneNumber: phoneNumber, 
+                                        loginMethod: 'free', 
+                                        ipAddress: ipGuess 
+                                    })
                                 });
-                                if (!res.ok) throw new Error('API error ' + res.status);
-                                return true;
+                                
+                                const responseData = await res.json();
+                                console.log('API response:', responseData);
+                                
+                                if (!res.ok) {
+                                    throw new Error(`API error ${res.status}: ${responseData.error || 'Unknown error'}`);
+                                }
+                                
+                                if (!responseData.success) {
+                                    throw new Error('API returned success: false');
+                                }
+                                
+                                console.log('Guest details saved successfully:', responseData);
+                                return { success: true, data: responseData };
                             } catch (e) {
-                                return false;
+                                console.error('Failed to save guest details:', e);
+                                return { success: false, error: e.message };
                             }
                         }
 
@@ -209,22 +229,61 @@
                             var phoneEl = document.getElementById('phoneNumber');
                             var errEl = document.getElementById('formError');
 
-                            if (btn) { btn.innerHTML = '⏳ Connecting...'; btn.disabled = true; btn.style.opacity = '0.7'; }
+                            if (btn) { 
+                                btn.innerHTML = '⏳ Saving details...'; 
+                                btn.disabled = true; 
+                                btn.style.opacity = '0.7'; 
+                            }
 
                             var fullName = nameEl ? (nameEl.value || '').trim() : '';
                             var phoneNumber = phoneEl ? (phoneEl.value || '').trim() : '';
 
                             // Simple validation
                             if (!fullName || !phoneNumber) {
-                                if (errEl) { errEl.style.display = 'block'; errEl.textContent = 'Please enter your name and phone number.'; }
-                                if (btn) { btn.innerHTML = '🚀 Connect to Free WiFi'; btn.disabled = false; btn.style.opacity = '1'; }
+                                if (errEl) { 
+                                    errEl.style.display = 'block'; 
+                                    errEl.textContent = 'Please enter your name and phone number.'; 
+                                }
+                                if (btn) { 
+                                    btn.innerHTML = '🚀 Connect to Free WiFi'; 
+                                    btn.disabled = false; 
+                                    btn.style.opacity = '1'; 
+                                }
                                 return false;
                             }
 
-                            // Attempt to post to API, but do not block login if it fails
-                            await postGuestDetails(fullName, phoneNumber);
+                            // Clear any previous errors
+                            if (errEl) {
+                                errEl.style.display = 'none';
+                                errEl.textContent = '';
+                            }
 
-                            // Continue original flow
+                            // Attempt to save details to API - this is now REQUIRED
+                            const saveResult = await postGuestDetails(fullName, phoneNumber);
+                            
+                            if (!saveResult.success) {
+                                // Show error and don't proceed with connection
+                                if (errEl) {
+                                    errEl.style.display = 'block';
+                                    errEl.textContent = 'Failed to save your details. Please try again.';
+                                }
+                                if (btn) {
+                                    btn.innerHTML = '🚀 Connect to Free WiFi';
+                                    btn.disabled = false;
+                                    btn.style.opacity = '1';
+                                }
+                                console.error('Connection blocked - details not saved');
+                                return false;
+                            }
+
+                            // Only proceed with connection if details were saved successfully
+                            console.log('Details saved successfully, proceeding with connection...');
+                            
+                            if (btn) {
+                                btn.innerHTML = '⏳ Connecting...';
+                            }
+
+                            // Continue with original connection flow
                             try {
                                 if (typeof originalConnectFree === 'function') {
                                     return originalConnectFree();
@@ -235,7 +294,10 @@
                                 if (loginForm) {
                                     loginForm.username.value = "to Settlenet";
                                     loginForm.password.value = "12345";
-                                    setTimeout(function() { loginForm.submit(); }, 300);
+                                    setTimeout(function() { 
+                                        console.log('Submitting login form...');
+                                        loginForm.submit(); 
+                                    }, 300);
                                 }
                             }
                             return false;
