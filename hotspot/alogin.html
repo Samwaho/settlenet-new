@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Redirect to status page instead of original destination -->
+    <meta http-equiv="refresh" content="2; url=status.html">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <title>Connected - Settlenet Free WiFi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        function startClock() {
+            // Open status window if popup is enabled
+            $(if popup == 'true')
+            open('status.html', 'hotspot_status', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=400,height=300');
+            $(endif)
+            // Redirect to status page instead of original destination
+            location.href = 'status.html';
+        }
+
+    </script>
+</head>
+
+<body onLoad="startClock()">
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <!-- Settlenet Logo -->
+                <img src="logo.png" alt="Settlenet" class="logo" />
+
+                <h1>🎉 Successfully Connected!</h1>
+                <p class="info">Welcome to Settlenet's free WiFi network. You're now connected and ready to browse!</p>
+                <p class="info">Redirecting you to connection status page...</p>
+                <p class="info">If nothing happens, <a href="status.html" style="color: var(--secondary);">click here</a></p>
+
+                <div class="info" style="margin-top: 30px; padding: 20px; background: rgba(30, 64, 175, 0.1); border-radius: 8px;">
+                    <p><strong>Thank you for choosing Settlenet!</strong></p>
+                    <p>We transform property networks into valuable assets. Learn more at <a href="#" style="color: var(--secondary);">www.settlenet.co.ke</a></p>
+                </div>
+
+                <p class="info bt">Powered by Settlenet Network Solutions</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

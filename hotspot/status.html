@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Auto refresh every 30 seconds -->
+<meta http-equiv="refresh" content="30">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<title>WiFi Status - Settlenet</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+
+$(if advert-pending == 'yes')
+    var popup = '';
+    function focusAdvert() {
+	if (window.focus) popup.focus();
+    }
+    function openAdvert() {
+	popup = open('$(link-advert)', 'hotspot_advert', '');
+	setTimeout("focusAdvert()", 1000);
+    }
+$(endif)
+    function openLogout() {
+	if (window.name != 'hotspot_status') return true;
+        open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
+	window.close();
+	return false;
+    }
+</script>
+    
+</head>
+<body $(if advert-pending == 'yes') onLoad="openAdvert()" $(endif)>
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <!-- Settlenet Logo -->
+                <img src="logo.png" alt="Settlenet" class="logo" />
+
+                <h1>🎉 Connected to Free WiFi!</h1>
+
+                $(if login-by == 'trial')
+                    <p class="info">Welcome, trial user! Enjoy your free internet access.</p>
+                $(elif login-by != 'mac')
+                    <p class="info">Welcome, $(username)! Enjoy your free internet access.</p>
+                $(else)
+                    <p class="info">Welcome! Enjoy your free internet access courtesy of Settlenet.</p>
+                $(endif)
+
+                <form action="$(link-logout)" name="logout" onSubmit="return openLogout()">
+                    <table>
+                        <tr><td>IP Address</td><td>$(ip)</td></tr>
+                        <tr><td>Data Usage</td><td>$(bytes-in-nice) / $(bytes-out-nice)</td></tr>
+                    $(if session-time-left)
+                        <tr><td>Session Time</td><td>$(uptime) / $(session-time-left)</td></tr>
+                    $(else)
+                        <tr><td>Connected For</td><td>$(uptime)</td></tr>
+                    $(endif)
+                    $(if blocked == 'yes')
+                        <tr><td>Status</td><td>
+                    <a href="$(link-advert)" target="hotspot_advert">Advertisement required</a></td>
+                        </tr>
+                    $(endif)
+                    </table>
+
+                    <div class="info">
+                        <p>Thank you for using Settlenet's free WiFi service!</p>
+                        <p>Learn more about our network solutions at <a href="#" style="color: var(--secondary);">www.settlenet.co.ke</a></p>
+                    </div>
+
+                    $(if login-by-mac != 'yes')
+                    <input type="submit" value="Disconnect" style="background: #dc2626; margin-top: 20px;">
+                    $(endif)
+                </form>
+
+                <p class="info bt">Powered by Settlenet Network Solutions</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free WiFi - Powered by Settlenet</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
+
+    <script src="/md5.js"></script>
+    <script>
+        // Global variables for template values
+        var chapId = '$(chap-id)';
+        var chapChallenge = '$(chap-challenge)';
+        var hasChap = chapId && chapId !== '$(chap-id)';
+
+        function doLogin() {
+            document.sendin.username.value = "to Settlenet";
+            if (typeof hexMD5 === 'function' && hasChap) {
+                document.sendin.password.value = hexMD5(chapId + "to Settlenet" + chapChallenge);
+            } else {
+                document.sendin.password.value = "12345";
+            }
+            document.sendin.submit();
+            return false;
+        }
+
+        function connectFree() {
+            // Show loading state
+            var btn = document.getElementById('connectBtn');
+            if (btn) {
+                btn.innerHTML = '⏳ Connecting...';
+                btn.disabled = true;
+                btn.style.opacity = '0.7';
+            }
+
+            // Set the form values
+            var loginForm = document.forms['login'];
+            if (loginForm) {
+                loginForm.username.value = "to Settlenet";
+                loginForm.password.value = "12345";
+            }
+
+            // Submit based on authentication method
+            setTimeout(function() {
+                if (hasChap) {
+                    // CHAP authentication
+                    if (typeof hexMD5 === 'function') {
+                        doLogin();
+                    } else {
+                        // Fallback if MD5 not available
+                        if (loginForm) loginForm.submit();
+                    }
+                } else {
+                    // PAP authentication
+                    if (loginForm) {
+                        loginForm.submit();
+                    }
+                }
+            }, 300);
+
+            return false;
+        }
+
+
+    </script>
+    $(endif)
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <!-- Settlenet Logo -->
+                <img src="logo.png" alt="Settlenet" class="logo" />
+
+                <!-- Business Information Section -->
+                <div class="business-info">
+                    <div class="business-header">
+                        <div class="business-subtitle">Network Infrastructure Solutions</div>
+                        <h2>Welcome to Settlenet</h2>
+                        <div class="business-description">
+                            Transform Your Property's Network Into Revenue with our innovative WebYield model.
+                            We help property owners monetize their network infrastructure while increasing tenant satisfaction.
+                        </div>
+                    </div>
+
+                    <div class="business-highlight">
+                        <p>🚀 Trusted by leading property managers across Kenya</p>
+                    </div>
+
+                    <div class="features">
+                        <div class="feature">
+                            <div class="feature-icon">📊</div>
+                            <h3>250+</h3>
+                            <p>Properties Served</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">📈</div>
+                            <h3>35%</h3>
+                            <p>Revenue Increase</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">⚡</div>
+                            <h3>99.9%</h3>
+                            <p>Network Uptime</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">🛠️</div>
+                            <h3>24/7</h3>
+                            <p>Support Available</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error message if any -->
+                $(if error)
+                <p class="info alert">$(error)</p>
+                $(endif)
+
+                <!-- Free WiFi Information -->
+                <div class="info">
+                    <h1>🎉 Free WiFi Available!</h1>
+                    <p>Enter your details to get connected instantly.</p>
+                </div>
+
+                <!-- Guest details form -->
+                <form id="guest-details" onsubmit="return false;" style="margin-top: 16px;">
+                    <div style="display:flex; flex-direction: column; gap: 8px;">
+                        <input id="fullName" type="text" placeholder="Your full name" style="padding: 12px; border-radius: 8px; border: 1px solid #e5e7eb; font-size: 16px;" required />
+                        <input id="phoneNumber" type="tel" placeholder="Phone number" style="padding: 12px; border-radius: 8px; border: 1px solid #e5e7eb; font-size: 16px;" required />
+                        <p id="formError" class="info alert" style="display:none;"></p>
+                    </div>
+                </form>
+
+                <!-- Login form -->
+                <form name="login" action="$(link-login-only)" method="post" style="display: none;">
+                    <input type="hidden" name="dst" value="$(link-orig)" />
+                    <input type="hidden" name="popup" value="true" />
+                    <input name="username" type="text" value="to Settlenet" style="display: none;" />
+                    <input name="password" type="password" value="12345" style="display: none;" />
+                    <input type="submit" value="Connect" style="display: none;" />
+                </form>
+
+                <!-- Connect Button -->
+                <button type="button" class="btn" onclick="connectFree()" id="connectBtn">
+                    🚀 Connect to Free WiFi
+                </button>
+
+                <!-- Fallback script in case of template issues -->
+                <script>
+                    // Ensure connectFree function exists
+                    if (typeof connectFree === 'undefined') {
+                        window.connectFree = function() {
+                            var btn = document.getElementById('connectBtn');
+                            if (btn) {
+                                btn.innerHTML = '⏳ Connecting...';
+                                btn.disabled = true;
+                            }
+
+                            var form = document.forms['login'];
+                            if (form) {
+                                form.username.value = "to Settlenet";
+                                form.password.value = "12345";
+                                setTimeout(function() {
+                                    form.submit();
+                                }, 500);
+                            }
+                        };
+                    }
+                </script>
+
+                <script>
+                    // Enhance connectFree to first post details to the API, then proceed
+                    (function() {
+                        var originalConnectFree = window.connectFree;
+                        var API_BASE = (window.HOTSPOT_API_BASE || 'http://localhost:4000');
+
+                        async function postGuestDetails(fullName, phoneNumber) {
+                            try {
+                                const ipGuess = (typeof location !== 'undefined') ? undefined : undefined;
+                                const res = await fetch(API_BASE + '/api/hotspot/registrations', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ fullName: fullName, phoneNumber: phoneNumber, loginMethod: 'free', ipAddress: ipGuess })
+                                });
+                                if (!res.ok) throw new Error('API error ' + res.status);
+                                return true;
+                            } catch (e) {
+                                return false;
+                            }
+                        }
+
+                        window.connectFree = async function() {
+                            var btn = document.getElementById('connectBtn');
+                            var nameEl = document.getElementById('fullName');
+                            var phoneEl = document.getElementById('phoneNumber');
+                            var errEl = document.getElementById('formError');
+
+                            if (btn) { btn.innerHTML = '⏳ Connecting...'; btn.disabled = true; btn.style.opacity = '0.7'; }
+
+                            var fullName = nameEl ? (nameEl.value || '').trim() : '';
+                            var phoneNumber = phoneEl ? (phoneEl.value || '').trim() : '';
+
+                            // Simple validation
+                            if (!fullName || !phoneNumber) {
+                                if (errEl) { errEl.style.display = 'block'; errEl.textContent = 'Please enter your name and phone number.'; }
+                                if (btn) { btn.innerHTML = '🚀 Connect to Free WiFi'; btn.disabled = false; btn.style.opacity = '1'; }
+                                return false;
+                            }
+
+                            // Attempt to post to API, but do not block login if it fails
+                            await postGuestDetails(fullName, phoneNumber);
+
+                            // Continue original flow
+                            try {
+                                if (typeof originalConnectFree === 'function') {
+                                    return originalConnectFree();
+                                }
+                            } finally {
+                                // As a fallback, also submit the hidden form
+                                var loginForm = document.forms['login'];
+                                if (loginForm) {
+                                    loginForm.username.value = "to Settlenet";
+                                    loginForm.password.value = "12345";
+                                    setTimeout(function() { loginForm.submit(); }, 300);
+                                }
+                            }
+                            return false;
+                        };
+                    })();
+                </script>
+
+
+
+                <!-- Footer -->
+                <p class="info bt">Powered by Settlenet Network Solutions</p>
+                <p class="info bt">Visit us at <a href="#" style="color: var(--secondary);">www.settlenet.co.ke</a></p>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
