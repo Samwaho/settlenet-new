@@ -15,7 +15,7 @@ model GuestRegistration {
 
   // Captive portal captured fields
   fullName      String
-  phoneNumber   String
+  phoneNumber   String   @unique // Prevent duplicate phone numbers
 
   // Optional context from Mikrotik if we want to store it
   macAddress    String?  @db.VarChar(64)

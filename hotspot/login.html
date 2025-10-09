@@ -208,6 +208,10 @@
                                 console.log('API response:', responseData);
                                 
                                 if (!res.ok) {
+                                    // Handle different error status codes
+                                    if (res.status === 409) {
+                                        return { success: false, error: responseData.error || 'Phone number already registered' };
+                                    }
                                     throw new Error(`API error ${res.status}: ${responseData.error || 'Unknown error'}`);
                                 }
                                 
@@ -262,17 +266,26 @@
                             const saveResult = await postGuestDetails(fullName, phoneNumber);
                             
                             if (!saveResult.success) {
-                                // Show error and don't proceed with connection
-                                if (errEl) {
-                                    errEl.style.display = 'block';
-                                    errEl.textContent = 'Failed to save your details. Please try again.';
+                                // Check if it's a duplicate phone number error
+                                if (saveResult.error && saveResult.error.includes('already registered')) {
+                                    if (errEl) {
+                                        errEl.style.display = 'block';
+                                        errEl.textContent = 'This phone number is already registered. Please use a different number or contact support.';
+                                    }
+                                } else {
+                                    // Generic error
+                                    if (errEl) {
+                                        errEl.style.display = 'block';
+                                        errEl.textContent = 'Failed to save your details. Please try again.';
+                                    }
                                 }
+                                
                                 if (btn) {
                                     btn.innerHTML = '🚀 Connect to Free WiFi';
                                     btn.disabled = false;
                                     btn.style.opacity = '1';
                                 }
-                                console.error('Connection blocked - details not saved');
+                                console.error('Connection blocked - details not saved:', saveResult.error);
                                 return false;
                             }
 

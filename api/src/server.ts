@@ -262,6 +262,29 @@ app.post('/api/hotspot/registrations', async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'fullName and phoneNumber are required' });
     }
 
+    // Check for existing phone number
+    const existingRegistration = await prisma.guestRegistration.findUnique({
+      where: { phoneNumber },
+      select: { id: true, fullName: true, createdAt: true }
+    });
+
+    if (existingRegistration) {
+      console.log(`[${requestId}] Duplicate phone number detected:`, {
+        phoneNumber: phoneNumber.substring(0, 3) + '***',
+        existingId: existingRegistration.id,
+        existingName: existingRegistration.fullName.substring(0, 3) + '***',
+        existingCreatedAt: existingRegistration.createdAt
+      });
+      return res.status(409).json({ 
+        error: 'Phone number already registered',
+        message: 'This phone number has already been registered for WiFi access',
+        existingRegistration: {
+          id: existingRegistration.id,
+          registeredAt: existingRegistration.createdAt
+        }
+      });
+    }
+
     const record = await prisma.guestRegistration.create({
       data: {
         fullName,
@@ -307,6 +330,22 @@ app.post('/api/hotspot/registrations', async (req: Request, res: Response) => {
     });
   } catch (error) {
     const duration = Date.now() - startTime;
+    
+    // Handle duplicate phone number constraint violation
+    if (error instanceof Error && error.message.includes('Unique constraint')) {
+      console.log(`[${requestId}] Duplicate phone number constraint violation:`, {
+        phoneNumber: req.body?.phoneNumber?.substring(0, 3) + '***',
+        duration: `${duration}ms`,
+        timestamp: new Date().toISOString()
+      });
+      return res.status(409).json({ 
+        error: 'Phone number already registered',
+        message: 'This phone number has already been registered for WiFi access',
+        requestId,
+        success: false
+      });
+    }
+    
     console.error(`[${requestId}] Failed to save registration:`, {
       error: error instanceof Error ? error.message : 'Unknown error',
       stack: error instanceof Error ? error.stack : undefined,
