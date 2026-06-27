@@ -183,58 +183,18 @@
                 </script>
 
                 <script>
-                    // Enhanced connectFree that requires successful API save before connecting
+                    // Validate local form fields, then continue with the hotspot login flow.
                     (function() {
                         var originalConnectFree = window.connectFree;
-                        var API_BASE = (window.HOTSPOT_API_BASE || 'http://167.99.102.77:4000');
 
-                        async function postGuestDetails(fullName, phoneNumber) {
-                            console.log('Attempting to save guest details:', { fullName: fullName.substring(0, 3) + '***', phoneNumber: phoneNumber.substring(0, 3) + '***' });
-                            
-                            try {
-                                const ipGuess = (typeof location !== 'undefined') ? undefined : undefined;
-                                const res = await fetch(API_BASE + '/api/hotspot/registrations', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ 
-                                        fullName: fullName, 
-                                        phoneNumber: phoneNumber, 
-                                        loginMethod: 'free', 
-                                        ipAddress: ipGuess 
-                                    })
-                                });
-                                
-                                const responseData = await res.json();
-                                console.log('API response:', responseData);
-                                
-                                if (!res.ok) {
-                                    // Handle different error status codes
-                                    if (res.status === 409) {
-                                        return { success: false, error: responseData.error || 'Phone number already registered' };
-                                    }
-                                    throw new Error(`API error ${res.status}: ${responseData.error || 'Unknown error'}`);
-                                }
-                                
-                                if (!responseData.success) {
-                                    throw new Error('API returned success: false');
-                                }
-                                
-                                console.log('Guest details saved successfully:', responseData);
-                                return { success: true, data: responseData };
-                            } catch (e) {
-                                console.error('Failed to save guest details:', e);
-                                return { success: false, error: e.message };
-                            }
-                        }
-
-                        window.connectFree = async function() {
+                        window.connectFree = function() {
                             var btn = document.getElementById('connectBtn');
                             var nameEl = document.getElementById('fullName');
                             var phoneEl = document.getElementById('phoneNumber');
                             var errEl = document.getElementById('formError');
 
                             if (btn) { 
-                                btn.innerHTML = '⏳ Saving details...'; 
+                                btn.innerHTML = 'Connecting...'; 
                                 btn.disabled = true; 
                                 btn.style.opacity = '0.7'; 
                             }
@@ -262,41 +222,6 @@
                                 errEl.textContent = '';
                             }
 
-                            // Attempt to save details to API - this is now REQUIRED
-                            const saveResult = await postGuestDetails(fullName, phoneNumber);
-                            
-                            if (!saveResult.success) {
-                                // Check if it's a duplicate phone number error
-                                if (saveResult.error && saveResult.error.includes('already registered')) {
-                                    if (errEl) {
-                                        errEl.style.display = 'block';
-                                        errEl.textContent = 'This phone number is already registered. Please use a different number or contact support.';
-                                    }
-                                } else {
-                                    // Generic error
-                                    if (errEl) {
-                                        errEl.style.display = 'block';
-                                        errEl.textContent = 'Failed to save your details. Please try again.';
-                                    }
-                                }
-                                
-                                if (btn) {
-                                    btn.innerHTML = '🚀 Connect to Free WiFi';
-                                    btn.disabled = false;
-                                    btn.style.opacity = '1';
-                                }
-                                console.error('Connection blocked - details not saved:', saveResult.error);
-                                return false;
-                            }
-
-                            // Only proceed with connection if details were saved successfully
-                            console.log('Details saved successfully, proceeding with connection...');
-                            
-                            if (btn) {
-                                btn.innerHTML = '⏳ Connecting...';
-                            }
-
-                            // Continue with original connection flow
                             try {
                                 if (typeof originalConnectFree === 'function') {
                                     return originalConnectFree();
