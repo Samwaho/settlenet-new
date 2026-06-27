@@ -16,6 +16,12 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Contact Form Email
+
+The property enquiry form posts to `/api/contact` and sends email to `settlenetlimited@gmail.com`.
+
+Create a `.env.local` file from `.env.example` and add real SMTP credentials before running locally or deploying. For Gmail, use a Google App Password, not your normal Gmail password.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
