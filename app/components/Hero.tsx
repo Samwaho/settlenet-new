@@ -5,111 +5,96 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Hero() {
+  const metrics = [
+    "Sell internet packages",
+    "Settlenet provisions users",
+    "Settlenet manages support",
+    "Owners earn recurring revenue",
+  ];
+
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background image */}
-      <div className="absolute inset-0 z-0">
+    <section className="relative min-h-[86vh] overflow-hidden bg-[var(--ink)] pt-24 text-white md:min-h-[92vh] md:pt-28">
+      <div className="image-vignette absolute inset-0 z-0">
         <Image 
-          src="/hero-bg.jpg" 
-          alt="Network infrastructure" 
+          src="/generated/settlenet-hero-property-network.png" 
+          alt="Modern property with connected network infrastructure"
           fill 
           priority
-          className="object-cover"
+          className="object-cover object-[64%_center]"
           quality={90}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-[var(--primary-dark)]/60"></div>
+        <div className="absolute inset-0 network-grid opacity-30"></div>
+        <div className="aceternity-spotlight absolute inset-0 opacity-80"></div>
       </div>
       
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left column - Text content */}
-          <div className="text-white max-w-2xl">
+      <div className="section-shell relative z-10 flex min-h-[calc(86vh-6rem)] items-center py-10 md:min-h-[calc(92vh-7rem)] md:py-16">
+        <div className="w-full max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span className="inline-block px-4 py-1.5 bg-[var(--secondary)] text-white rounded-full text-sm font-medium mb-6">
-                Network Infrastructure Solutions
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-bold text-white shadow-lg backdrop-blur-md">
+                <span className="h-2 w-2 rounded-full bg-[var(--secondary)]"></span>
+                Internet revenue for apartments, offices, and mixed-use properties
               </span>
               
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Transform Your Property's <span className="text-[var(--secondary)]">Network</span> Into Revenue
+              <h1 className="mt-7 max-w-4xl text-5xl font-black leading-[0.98] sm:text-6xl lg:text-7xl xl:text-8xl">
+                Turn your property into an internet business.
               </h1>
               
-              <p className="text-lg sm:text-xl mb-8 text-gray-200 leading-relaxed">
-                Settlenet helps property owners monetize their network infrastructure with our innovative WebYield model. Increase tenant satisfaction while creating new revenue streams.
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-100/85 sm:text-xl">
+                Settlenet helps property owners sell internet to tenants and guests. We install the network, provision users, manage support, and keep the service running while you grow recurring revenue.
               </p>
               
-              <div className="flex flex-wrap gap-4">
-                <Link href="#services">
-                  <motion.button 
-                    className="bg-[var(--secondary)] hover:bg-[var(--secondary-dark)] text-white px-8 py-4 rounded-md font-medium shadow-lg transition-all"
-                    whileHover={{ scale: 1.05 }}
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link href="#services" className="group w-full sm:w-auto">
+                  <motion.span 
+                    className="aceternity-border inline-flex w-full rounded-lg p-[1px] shadow-xl shadow-orange-950/25 sm:w-auto"
+                    whileHover={{ y: -3 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Our Solutions
-                  </motion.button>
+                    <span className="inline-flex w-full items-center justify-center rounded-lg bg-[var(--secondary)] px-7 py-4 font-bold text-white transition-colors group-hover:bg-[var(--secondary-dark)] sm:w-auto">
+                      See How It Works
+                    </span>
+                  </motion.span>
                 </Link>
                 
                 <Link href="#contact">
                   <motion.button 
-                    className="bg-transparent border-2 border-white hover:bg-white/10 text-white px-8 py-4 rounded-md font-medium transition-all"
-                    whileHover={{ scale: 1.05 }}
+                    className="w-full rounded-lg border border-white/30 bg-white/10 px-7 py-4 font-bold text-white backdrop-blur-md transition-colors hover:bg-white/18 sm:w-auto"
+                    whileHover={{ y: -3 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Contact Us
+                    Request a Revenue Estimate
                   </motion.button>
                 </Link>
               </div>
-            </motion.div>
-          </div>
-          
-          {/* Right column - Stats and highlights */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="hidden lg:block"
-          >
-            <div className="bg-white/10 backdrop-blur-md p-8 rounded-xl border border-white/20">
-              <h3 className="text-white text-xl font-semibold mb-6">Why Property Owners Choose Us</h3>
-              
-              <div className="grid grid-cols-2 gap-6">
-                {[
-                  { number: "250+", label: "Properties Served" },
-                  { number: "35%", label: "Average Revenue Increase" },
-                  { number: "99.9%", label: "Network Uptime" },
-                  { number: "24/7", label: "Support Available" }
-                ].map((stat, index) => (
+
+              <motion.div 
+                className="mt-10 flex max-w-3xl flex-wrap gap-3"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.4 } }
+                }}
+              >
+                {metrics.map((metric, index) => (
                   <motion.div 
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.6 + (index * 0.1) }}
-                    className="text-center p-4 bg-white/5 rounded-lg border border-white/10"
+                    key={metric}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-4 py-2 text-sm font-bold text-white backdrop-blur-md"
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0 }
+                    }}
                   >
-                    <div className="text-[var(--secondary)] font-bold text-3xl mb-1">{stat.number}</div>
-                    <div className="text-gray-200 text-sm">{stat.label}</div>
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--secondary)] text-xs font-black">{index + 1}</span>
+                    <span>{metric}</span>
                   </motion.div>
                 ))}
-              </div>
-              
-              <div className="mt-6 pt-6 border-t border-white/10">
-                <div className="flex items-center">
-                  <div className="flex -space-x-2 mr-4">
-                    {[...Array(4)].map((_, i) => (
-                      <div key={i} className={`w-10 h-10 rounded-full border-2 border-white bg-[var(--primary-${i % 2 ? 'light' : 'dark'})]`}></div>
-                    ))}
-                  </div>
-                  <div className="text-white">
-                    <div className="font-medium">Trusted by leading property managers</div>
-                    <div className="text-sm text-gray-300">Join our network of satisfied clients</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+              </motion.div>
+            </motion.div>
         </div>
       </div>
     </section>

@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Settlenet | Smart Network Management",
-  description: "Maximize your property investment with Settlenet's smart network management solutions.",
+  title: "Settlenet | Internet Revenue for Property Owners",
+  description: "Settlenet helps property owners sell internet in their buildings while handling provisioning, management, and support.",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1E40AF",
+  themeColor: "#081827",
 };
 
 export default function RootLayout({

@@ -11,50 +11,50 @@ import MotionScrollReveal from './animations/MotionScrollReveal';
 const projects = [
   {
     id: 1,
-    title: 'Skyline Towers Network Upgrade',
-    description: 'Complete network infrastructure overhaul for a 45-story luxury residential building.',
+    title: 'Apartment Internet Revenue Setup',
+    description: 'Building-wide internet service for residents with managed access, support, and owner revenue reporting.',
     category: 'Residential',
     image: '/project1.jpg',
   },
   {
     id: 2,
-    title: 'Tech Park Connectivity Solution',
-    description: 'High-speed fiber network implementation for a multi-building technology campus.',
+    title: 'Office Tenant Connectivity',
+    description: 'Reliable internet packages for office tenants, with provisioning handled by Settlenet.',
     category: 'Commercial',
     image: '/project2.jpg',
   },
   {
     id: 3,
-    title: 'Harbor View Apartments',
-    description: 'WebYield revenue model implementation for 250-unit waterfront property.',
+    title: 'Short-Stay Guest Internet',
+    description: 'Simple guest access for furnished apartments and short-stay units, managed from setup to support.',
     category: 'Residential',
     image: '/project3.jpg',
   },
   {
     id: 4,
-    title: 'Metropolitan Office Complex',
-    description: 'Enterprise-grade network design and installation for downtown office hub.',
+    title: 'Mixed-Use Property Network',
+    description: 'Separate packages for residents, shops, and offices on one managed property network.',
     category: 'Commercial',
     image: '/project4.jpg',
   },
   {
     id: 5,
-    title: 'Sunset Heights Community',
-    description: 'Community-wide mesh network deployment for suburban housing development.',
+    title: 'Residential Estate Internet',
+    description: 'Managed Wi-Fi and tenant subscriptions for multi-unit residential communities.',
     category: 'Residential',
     image: '/project5.jpg',
   },
   {
     id: 6,
-    title: 'Riverside Medical Center',
-    description: 'Secure, high-reliability network infrastructure for healthcare facility.',
+    title: 'Managed Business Connectivity',
+    description: 'Provisioned internet access for high-demand buildings that need reliable managed service.',
     category: 'Healthcare',
     image: '/project6.jpg',
   },
   {
     id: 7,
-    title: 'Grand Hotel & Conference Center',
-    description: 'Comprehensive hospitality network solution with guest and event services.',
+    title: 'Hospitality Guest Access',
+    description: 'Guest internet packages for hotels, conference venues, and serviced apartments.',
     category: 'Hospitality',
     image: '/project7.jpg',
   },
@@ -71,44 +71,40 @@ export default function Projects() {
     : projects.filter(project => project.category === activeCategory);
 
   return (
-    <MotionSection id="projects" className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+    <MotionSection id="projects" className="section-padding bg-[var(--background)]">
+      <div className="section-shell">
+        <div className="mx-auto mb-12 max-w-3xl text-center">
           <motion.span 
-            className="inline-block px-3 py-1 bg-[var(--secondary-light)] text-[var(--secondary)] rounded-full text-sm font-medium mb-3"
+            className="eyebrow"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
           >
-            Our Projects
+            Example Properties
           </motion.span>
           
-          <MotionText 
-            as="h2" 
-            className="text-3xl md:text-4xl font-bold text-[var(--primary)]"
-          >
-            Featured Work
+          <MotionText as="h2" className="mt-4 text-3xl font-black tracking-tight text-slate-950 md:text-5xl">
+            Where property internet can earn
           </MotionText>
           
           <MotionText 
-            className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto"
+            className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600"
             delay={0.2}
           >
-            Explore our portfolio of successful network infrastructure projects
+            Settlenet can support different property types where tenants, businesses, or guests need reliable internet access.
           </MotionText>
         </div>
         
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center mb-10 gap-2">
+        <div className="mb-10 flex flex-wrap justify-center gap-2">
           {categories.map((category, index) => (
             <motion.button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`relative rounded-full px-4 py-2 text-sm font-bold transition-colors ${
                 activeCategory === category
-                  ? 'bg-[var(--primary)] text-white'
-                  : 'bg-white text-gray-600 hover:bg-gray-100'
+                  ? 'bg-[var(--primary-dark)] text-white shadow-lg shadow-cyan-950/10'
+                  : 'border border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
               }`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -119,8 +115,7 @@ export default function Projects() {
           ))}
         </div>
         
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <motion.div layout className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {filteredProjects.map((project, index) => (
             <MotionScrollReveal 
               key={project.id} 
@@ -129,33 +124,33 @@ export default function Projects() {
               className="h-full"
             >
               <motion.div 
-                className="bg-white rounded-lg overflow-hidden shadow-md h-full flex flex-col"
-                whileHover={{ y: -10, transition: { duration: 0.2 } }}
+                layout
+                className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm"
+                whileHover={{ y: -8, transition: { duration: 0.2 } }}
               >
-                <div className="relative h-60 w-full">
+                <div className="relative h-64 w-full overflow-hidden">
                   <Image
                     src={project.image}
                     alt={project.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute top-4 right-4 bg-[var(--primary)] text-white text-xs font-bold px-2 py-1 rounded">
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent"></div>
+                  <div className="absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1 text-xs font-black uppercase tracking-wide text-[var(--primary-dark)] backdrop-blur">
                     {project.category}
                   </div>
                 </div>
-                <div className="p-6 flex-grow">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{project.title}</h3>
-                  <p className="text-gray-600">{project.description}</p>
-                </div>
-                <div className="px-6 pb-6">
+                <div className="flex flex-grow flex-col p-6">
+                  <h3 className="text-xl font-black text-slate-950">{project.title}</h3>
+                  <p className="mt-3 flex-grow leading-7 text-slate-600">{project.description}</p>
                   <motion.button 
-                    className="text-[var(--primary)] font-medium flex items-center hover:underline"
+                    className="mt-6 inline-flex w-fit items-center gap-2 font-bold text-[var(--primary)] hover:text-[var(--secondary)]"
                     whileHover={{ x: 5 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    View Details
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    Learn More
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                   </motion.button>
@@ -163,17 +158,16 @@ export default function Projects() {
               </motion.div>
             </MotionScrollReveal>
           ))}
-        </div>
+        </motion.div>
         
-        {/* View All Projects Button */}
         <div className="text-center mt-12">
           <motion.button
-            className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[var(--primary)] hover:bg-[var(--primary-dark)] transition-colors"
-            whileHover={{ scale: 1.05 }}
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--primary-dark)] px-6 py-3 text-base font-bold text-white shadow-lg shadow-cyan-950/10 transition-colors hover:bg-[var(--primary)]"
+            whileHover={{ y: -3 }}
             whileTap={{ scale: 0.95 }}
           >
-            View All Projects
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            Discuss Your Property
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </motion.button>

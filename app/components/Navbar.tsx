@@ -1,156 +1,133 @@
 'use client';
-import { useState, useEffect } from 'react';
+
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '@/public/logo3.png';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useSelectedLayoutSegment } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
+
+const navigation = [
+  { label: 'How it works', href: '#services' },
+  { label: 'WebYield', href: '#about' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Contact', href: '#contact' },
+];
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const activeSegment = useSelectedLayoutSegment();
 
-  // Handle scroll effect
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navbarClasses = `sticky top-0 z-50 ${
-    scrolled ? 'bg-white shadow-md' : 'bg-white/80 backdrop-blur-sm'
-  } transition-all duration-300`;
-
   return (
-    <nav className={navbarClasses}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <motion.div 
-            className="flex items-center"
-            initial={{ opacity: 0, x: -20 }}
+    <nav
+      className={`fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white transition-shadow duration-300 ${
+        scrolled ? 'shadow-lg shadow-slate-900/10' : ''
+      }`}
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-[76px] items-center justify-between gap-4">
+          <motion.div
+            initial={{ opacity: 0, x: -18 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.45 }}
           >
-            <Link href="/" className="flex items-center"> 
-              <Image src={Logo} alt="Settlenet" className="object-contain" width={150} height={150} />
+            <Link href="/" className="flex items-center rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary)]">
+              <Image src={Logo} alt="Settlenet" className="h-11 w-auto object-contain" width={170} height={82} priority />
             </Link>
           </motion.div>
-          
-          {/* Desktop menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            {['services', 'about', 'contact'].map((item, index) => (
+
+          <div className="hidden items-center gap-8 md:flex">
+            {navigation.map((item, index) => (
               <motion.div
-                key={item}
-                initial={{ opacity: 0, y: -10 }}
+                key={item.href}
+                initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
+                transition={{ duration: 0.45, delay: 0.06 * index }}
               >
-                <Link 
-                  href={`#${item}`} 
-                  className={`text-gray-700 hover:text-[var(--secondary)] transition-colors ${
-                    activeSegment === item ? 'text-[var(--secondary)] font-medium' : ''
-                  }`}
+                <Link
+                  href={item.href}
+                  className="text-sm font-bold text-slate-700 transition-colors hover:text-[var(--primary)]"
                 >
-                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                  {item.label}
                 </Link>
               </motion.div>
             ))}
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <Link 
-                href="#contact" 
-                className="bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-4 py-2 rounded-md transition-colors"
-              >
-                Get Started
-              </Link>
-            </motion.div>
           </div>
-          
-          {/* Mobile menu button */}
-          <motion.div 
-            className="md:hidden flex items-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+
+          <motion.div
+            className="hidden items-center md:flex"
+            initial={{ opacity: 0, scale: 0.94 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.45, delay: 0.22 }}
           >
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-[var(--primary)] focus:outline-none"
-              aria-expanded={isMenuOpen}
+            <Link
+              href="#contact"
+              className="inline-flex items-center gap-2 rounded-lg bg-[var(--secondary)] px-5 py-3 text-sm font-black text-white shadow-lg shadow-orange-950/12 transition-colors hover:bg-[var(--secondary-dark)]"
             >
-              <span className="sr-only">Open main menu</span>
-              <motion.div
-                animate={isMenuOpen ? "open" : "closed"}
-                variants={{
-                  open: { rotate: 180 },
-                  closed: { rotate: 0 }
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                {!isMenuOpen ? (
-                  <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                ) : (
-                  <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                )}
-              </motion.div>
-            </button>
+              Start earning
+              <span aria-hidden="true">-&gt;</span>
+            </Link>
           </motion.div>
+
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-800 shadow-sm hover:bg-slate-50 focus:outline-none md:hidden"
+            aria-expanded={isMenuOpen}
+          >
+            <span className="sr-only">Open main menu</span>
+            {!isMenuOpen ? (
+              <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+            ) : (
+              <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            )}
+          </button>
         </div>
       </div>
-      
-      {/* Mobile menu */}
+
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div 
-            className="md:hidden bg-white shadow-lg rounded-b-lg"
+          <motion.div
+            className="border-t border-slate-200 bg-white shadow-lg md:hidden"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25 }}
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {['services', 'about', 'contact'].map((item, index) => (
+            <div className="space-y-2 px-4 py-4">
+              {navigation.map((item, index) => (
                 <motion.div
-                  key={item}
-                  initial={{ opacity: 0, x: -20 }}
+                  key={item.href}
+                  initial={{ opacity: 0, x: -14 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.05 * index }}
+                  transition={{ duration: 0.25, delay: 0.04 * index }}
                 >
-                  <Link 
-                    href={`#${item}`} 
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[var(--secondary)] hover:bg-gray-50"
+                  <Link
+                    href={item.href}
+                    className="block rounded-lg px-3 py-3 text-base font-bold text-slate-700 hover:bg-slate-50 hover:text-[var(--primary)]"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    {item.charAt(0).toUpperCase() + item.slice(1)}
+                    {item.label}
                   </Link>
                 </motion.div>
               ))}
-              
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.2 }}
+
+              <Link
+                href="#contact"
+                className="block rounded-lg bg-[var(--secondary)] px-3 py-3 text-base font-black text-white hover:bg-[var(--secondary-dark)]"
+                onClick={() => setIsMenuOpen(false)}
               >
-                <Link 
-                  href="#contact" 
-                  className="block px-3 py-2 rounded-md text-base font-medium bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)]"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Get Started
-                </Link>
-              </motion.div>
+                Start earning
+              </Link>
             </div>
           </motion.div>
         )}

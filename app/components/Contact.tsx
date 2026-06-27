@@ -5,12 +5,43 @@ import MotionText from './animations/MotionText';
 import MotionScrollReveal from './animations/MotionScrollReveal';
 
 export default function Contact() {
+  const contactMethods = [
+    {
+      title: 'Phone',
+      lines: ['+254 710 805 994', 'Mon-Fri, 9am-5pm'],
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+        </svg>
+      ),
+    },
+    {
+      title: 'Email',
+      lines: ['info@settlenet.co.ke', 'support@settlenet.co.ke'],
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      ),
+    },
+    {
+      title: 'Address',
+      lines: ['Sunrise Street, Juja', 'Kenya'],
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      ),
+    },
+  ];
+
   return (
-    <MotionSection id="contact" className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+    <MotionSection id="contact" className="section-padding bg-[var(--background)]">
+      <div className="section-shell">
+        <div className="mx-auto mb-12 max-w-3xl text-center">
           <motion.span 
-            className="inline-block px-3 py-1 bg-[var(--secondary-light)] text-[var(--secondary)] rounded-full text-sm font-medium mb-3"
+            className="eyebrow"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -19,79 +50,48 @@ export default function Contact() {
             Contact Us
           </motion.span>
           
-          <MotionText 
-            as="h2" 
-            className="text-3xl md:text-4xl font-bold text-[var(--primary)]"
-          >
-            Get in Touch
+          <MotionText as="h2" className="mt-4 text-3xl font-black tracking-tight text-slate-950 md:text-5xl">
+            Talk to Settlenet
           </MotionText>
           
           <MotionText 
-            className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto"
+            className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600"
             delay={0.2}
           >
-            Ready to maximize your property's potential? Contact us today.
+            Share your property type, number of tenants, and current internet setup. We will explain how Settlenet can help you sell and manage internet service.
           </MotionText>
         </div>
         
         <MotionScrollReveal 
           direction="up" 
-          className="bg-white p-8 rounded-lg shadow-md max-w-3xl mx-auto"
+          className="mx-auto max-w-5xl overflow-hidden rounded-lg border border-slate-200 bg-white shadow-xl shadow-slate-900/5"
         >
-          <h3 className="text-xl font-semibold mb-6 text-center">Contact Information</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            <motion.div 
-              className="flex flex-col items-center text-center p-4 rounded-lg hover:bg-gray-50"
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-            >
-              <div className="bg-[var(--primary-light)] p-3 rounded-full mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-              </div>
-              <h4 className="font-medium text-lg mb-1">Phone</h4>
-              <p className="text-gray-600">+254 710 805 994</p>
-              <p className="text-gray-600">Mon-Fri, 9am-5pm</p>
-            </motion.div>
-            
-            <motion.div 
-              className="flex flex-col items-center text-center p-4 rounded-lg hover:bg-gray-50"
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-            >
-              <div className="bg-[var(--primary-light)] p-3 rounded-full mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h4 className="font-medium text-lg mb-1">Email</h4>
-              <p className="text-gray-600">info@settlenet.co.ke</p>
-              <p className="text-gray-600">support@settlenet.co.ke</p>
-            </motion.div>
-            
-            <motion.div 
-              className="flex flex-col items-center text-center p-4 rounded-lg hover:bg-gray-50"
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-            >
-              <div className="bg-[var(--primary-light)] p-3 rounded-full mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <h4 className="font-medium text-lg mb-1">Address</h4>
-              <p className="text-gray-600">123 Tech Avenue, Suite 100, Nairobi</p>
-              <p className="text-gray-600">Kenya</p>
-            </motion.div>
+          <div className="grid md:grid-cols-3">
+            {contactMethods.map((method) => (
+              <motion.div 
+                key={method.title}
+                className="border-b border-slate-200 p-6 text-center last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0"
+                whileHover={{ y: -5, backgroundColor: '#f8fafc', transition: { duration: 0.2 } }}
+              >
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--primary-light)] text-[var(--primary)]">
+                  {method.icon}
+                </div>
+                <h4 className="mb-2 text-lg font-black text-slate-950">{method.title}</h4>
+                {method.lines.map((line) => (
+                  <p key={line} className="text-slate-600">{line}</p>
+                ))}
+              </motion.div>
+            ))}
           </div>
           
-          <div className="mt-10 pt-6 border-t border-gray-200">
-            <h4 className="font-medium mb-4 text-center">Follow Us</h4>
+          <div className="border-t border-slate-200 bg-slate-50 p-6">
+            <h4 className="mb-4 text-center font-black text-slate-950">Follow Us</h4>
             <div className="flex justify-center space-x-6">
               {['twitter', 'linkedin', 'facebook', 'instagram'].map((social, index) => (
                 <motion.a 
                   key={social}
                   href="#" 
-                  className="text-gray-400 hover:text-[var(--secondary)] transition-colors"
+                  className="text-slate-400 transition-colors hover:text-[var(--secondary)]"
                   whileHover={{ scale: 1.2, rotate: 5 }}
                   whileTap={{ scale: 0.9 }}
                   initial={{ opacity: 0, y: 20 }}
